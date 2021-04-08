@@ -11,5 +11,3 @@ steps:
 - name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
   entrypoint: gcloud
   args: ["run", "deploy", "buildpack-sample", "--image", "eu.gcr.io/$PROJECT_ID/buildpack-sample:$COMMIT_SHA", "--region", "europe-west1", "--platform", "managed"]
-images:
- - 'gcr.io/$PROJECT_ID/buildpack-sample:$COMMIT_SHA'
