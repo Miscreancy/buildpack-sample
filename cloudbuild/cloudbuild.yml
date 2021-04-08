@@ -1,0 +1,24 @@
+steps:
+- name: "gcr.io/k8s-skaffold/pack"
+  entrypoint: "bash"
+  args: ["./cloudbuild/build_container_image.sh"]
+  env:
+  - 'PROJECT_ID=$PROJECT_ID'
+  - 'COMMIT_SHA=$COMMIT_SHA'
+- name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+  entrypoint: gcloud
+  args: ["run", "deploy", "buildpack-sample", "--image", "eu.gcr.io/$PROJECT_ID/buildpack-sample:$COMMIT_SHA", "--region", "europe-west1"]
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+   entrypoint: gcloud
+   args:
+   - 'run'
+   - 'deploy'
+   - 'buildpack-sample'
+   - '--image'
+   - 'gcr.io/$PROJECT_ID/buildpack-sample:$COMMIT_SHA'
+   - '--region'
+   - 'europe-west1'
+   - '--platform'
+   - 'managed'
+ images:
+ - 'gcr.io/$PROJECT_ID/buildpack-sample:$COMMIT_SHA'

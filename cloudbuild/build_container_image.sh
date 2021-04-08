@@ -1,0 +1,21 @@
+#!/bin/bash
+
+gcloud container images list-tags eu.gcr.io/gae-runtimes/buildpacks/php74/builder | awk -F"_" 'NR>1 {​​​​​​​print $2}​​​​​​​​​​​​​​'>tagfilter.txt;
+
+TAGDATE=0;
+
+while read tag; do
+  if [[ $tag -gt $TAGDATE ]]; then
+    TAGDATE=$tag;
+  fi
+done<tagfilter.txt;
+
+echo "Latest date found for builder: $TAGDATE";
+
+PHPBUILDER=$(gcloud container images list-tags eu.gcr.io/gae-runtimes/buildpacks/php74/builder --filter php74_$TAGDATE | awk 'NR==2 {​​​​​​​​​​​​​​print $2}​​​​​​​​​​​​​​');
+
+echo "Being built with builder image tag $PHPBUILDER";
+
+rm tagfilter.txt
+
+pack build --builder eu.gcr.io/gae-runtimes/buildpacks/php74/builder:$PHPBUILDER --publish eu.gcr.io/$PROJECT_ID/buildpack-sample:$COMMIT_SHA
