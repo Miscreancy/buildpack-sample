@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gcloud container images list-tags eu.gcr.io/gae-runtimes/buildpacks/php74/builder | awk -F'_' '{​​​​​​​print $2}​​​​​​​​​​​​​​'>tagfilter.txt
+gcloud container images list-tags eu.gcr.io/gae-runtimes/buildpacks/php74/builder
 
 TAGDATE=0
 
