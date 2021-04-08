@@ -1,6 +1,9 @@
 steps:
+- name: "gcr.io/google.com/cloudsdktool/cloud-sdk"
+  entrypoint: "/bin/bash"
+  args: ["./cloudbuild/get_container_image.sh"]
 - name: "gcr.io/k8s-skaffold/pack"
-  entrypoint: "bash"
+  entrypoint: "/bin/sh"
   args: ["./cloudbuild/build_container_image.sh"]
   env:
   - 'PROJECT_ID=$PROJECT_ID'
