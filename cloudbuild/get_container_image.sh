@@ -1,20 +1,20 @@
 #!/bin/bash
 
-gcloud container images list-tags eu.gcr.io/gae-runtimes/buildpacks/php74/builder | awk -F"_" 'NR>1 {​​​​​​​print $2}​​​​​​​​​​​​​​'>tagfilter.txt;
+gcloud container images list-tags eu.gcr.io/gae-runtimes/buildpacks/php74/builder | awk -F'_' '{​​​​​​​print $2}​​​​​​​​​​​​​​'>tagfilter.txt
 
-TAGDATE=0;
+TAGDATE=0
 
 while read tag; do
   if [[ $tag -gt $TAGDATE ]]; then
-    TAGDATE=$tag;
+    TAGDATE=$tag
   fi
-done<tagfilter.txt;
+done<tagfilter.txt
 
-echo "Latest date found for builder: $TAGDATE";
+echo "Latest date found for builder: $TAGDATE"
 
-PHPBUILDER=$(gcloud container images list-tags eu.gcr.io/gae-runtimes/buildpacks/php74/builder --filter php74_$TAGDATE | awk 'NR==2 {​​​​​​​​​​​​​​print $2}​​​​​​​​​​​​​​');
+PHPBUILDER=$(gcloud container images list-tags eu.gcr.io/gae-runtimes/buildpacks/php74/builder --filter php74_$TAGDATE | awk '{​​​​​​​​​​​​​​print $2}​​​​​​​​​​​​​​')
 
-echo "Being built with builder image tag $PHPBUILDER";
+echo "Being built with builder image tag $PHPBUILDER"
 
 rm tagfilter.txt
 
